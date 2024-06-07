@@ -5,7 +5,7 @@ namespace DnD_Master.Controllers
 {
     public class CharacterController : Controller
     {
-        private static List<Character> characters = new List<Character>();
+        public static List<Character> characters = new List<Character>();
 
         // Метод для отображения списка персонажей
         public IActionResult Index()

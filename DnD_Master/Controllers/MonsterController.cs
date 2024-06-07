@@ -5,7 +5,7 @@ namespace DnD_Master.Controllers
 {
     public class MonsterController : Controller
     {
-        private static List<Monster> monsters = new List<Monster>();
+        public static List<Monster> monsters = new List<Monster>();
 
         // Метод для отображения списка монстров
         public IActionResult Index()

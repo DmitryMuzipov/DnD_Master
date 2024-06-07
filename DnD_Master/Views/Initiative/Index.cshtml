@@ -1,0 +1,55 @@
+﻿@model IEnumerable<object>
+
+<h2>Initiative Order</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Initiative</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entity in Model)
+        {
+            <tr>
+                <td>
+                    @if (entity is DnD_Master.Models.Character)
+                    {
+                        var character = (DnD_Master.Models.Character)entity;
+                        @character.Name
+                    }
+                    else
+                    {
+                        var monster = (DnD_Master.Models.Monster)entity;
+                        @monster.Name
+                    }
+                </td>
+                <td>
+                    @if (entity is DnD_Master.Models.Character)
+                    {
+                        var character = (DnD_Master.Models.Character)entity;
+                        @character.Initiative
+                    }
+                    else
+                    {
+                        var monster = (DnD_Master.Models.Monster)entity;
+                        @monster.Initiative
+                    }
+                </td>
+                <td>
+                    @if (entity is DnD_Master.Models.Character)
+                    {
+                        @("Character")
+                    }
+                    else
+                    {
+                        @("Monster")
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Character/Index" class="btn btn-primary">Manage Characters</a>
+<a href="/Monster/Index" class="btn btn-primary">Manage Monsters</a>
