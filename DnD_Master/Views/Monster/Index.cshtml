@@ -1,0 +1,26 @@
+﻿@model IEnumerable<DnD_Master.Models.Monster>
+
+<h2>Monsters</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Initiative</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var monster in Model)
+        {
+            <tr>
+                <td>@monster.Name</td>
+                <td>@monster.Initiative</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@monster.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@monster.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Monster/Create" class="btn btn-primary">Create New Monster</a>

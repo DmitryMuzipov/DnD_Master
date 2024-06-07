@@ -1,0 +1,26 @@
+﻿@model IEnumerable<DnD_Master.Models.Character>
+
+<h2>Characters</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Initiative</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var character in Model)
+        {
+            <tr>
+                <td>@character.Name</td>
+                <td>@character.Initiative</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@character.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@character.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Character/Create" class="btn btn-primary">Create New Character</a>
