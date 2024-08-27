@@ -2,57 +2,81 @@
 
 <h2>Initiative Order</h2>
 <form asp-action="StartCombat" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Initiative</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entity in Model)
+            {
+                <tr>
+                    <td>
+                        @if (entity is DnD_Master.Models.Character)
+                        {
+                            var character = (DnD_Master.Models.Character)entity;
+                            @character.Name
+                        }
+                        else
+                        {
+                            var monster = (DnD_Master.Models.Monster)entity;
+                            @monster.Name
+                        }
+                    </td>
+                    <td>
+                        @if (entity is DnD_Master.Models.Character)
+                        {
+                            var character = (DnD_Master.Models.Character)entity;
+                            <input type="number" name="InitiativeValues[@character.Name]" value="@character.Initiative" />
+                        }
+                        else
+                        {
+                            var monster = (DnD_Master.Models.Monster)entity;
+                            @monster.Initiative
+                        }
+                    </td>
+                    <td>
+                        @if (entity is DnD_Master.Models.Character)
+                        {
+                            @("Character")
+                        }
+                        else
+                        {
+                            @("Monster")
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
     <button type="submit" class="btn btn-danger">Start Combat</button>
 </form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Initiative</th>
-            <th>Type</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var entity in Model)
-        {
-            <tr>
-                <td>
-                    @if (entity is DnD_Master.Models.Character)
-                    {
-                        var character = (DnD_Master.Models.Character)entity;
-                        @character.Name
-                    }
-                    else
-                    {
-                        var monster = (DnD_Master.Models.Monster)entity;
-                        @monster.Name
-                    }
-                </td>
-                <td>
-                    @if (entity is DnD_Master.Models.Character)
-                    {
-                        var character = (DnD_Master.Models.Character)entity;
-                        @character.Initiative
-                    }
-                    else
-                    {
-                        var monster = (DnD_Master.Models.Monster)entity;
-                        @monster.Initiative
-                    }
-                </td>
-                <td>
-                    @if (entity is DnD_Master.Models.Character)
-                    {
-                        @("Character")
-                    }
-                    else
-                    {
-                        @("Monster")
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 <a href="/Character/Index" class="btn btn-primary">Manage Characters</a>
 <a href="/Monster/Index" class="btn btn-primary">Manage Monsters</a>
+
+@if (ViewBag.SortedEntities != null)
+{
+    <h2>Sorted Initiative Order</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Initiative</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entity in ViewBag.SortedEntities)
+            {
+                <tr>
+                    <td>@entity.Name</td>
+                    <td>@entity.Initiative</td>
+                    <td>@entity.Type</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
