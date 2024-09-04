@@ -32,38 +32,73 @@ namespace DnD_Master.Controllers
         }
 
         [HttpPost]
-        public IActionResult StartCombat(Dictionary<string, int> InitiativeValues)
+        public IActionResult StartCombat(Dictionary<string, int> InitiativeValues, List<string> DeadCharacters, List<string> DeadMonsters)
         {
-            var i = 0;
+            var charInd = 0;
+            var monsterInd = 0;
             var characters = _context.Characters.ToList();
             var monsters = _context.Monsters.ToList();
 
             // Обновляем инициативу персонажей на основе данных из формы
             foreach (var charItem in characters)
             {
-                if (InitiativeValues.ContainsKey(charItem.Name))
+                if (DeadCharacters.Contains(charItem.Name))
                 {
-                    charItem.Initiative = InitiativeValues[charItem.Name];
+                    var existingCharacher = _context.Characters.FirstOrDefault(m => m.Id == characters[charInd].Id);
+                    if (existingCharacher != null)
+                    {
+                        existingCharacher.Name = characters[charInd].Name;
+                        existingCharacher.Initiative = 0;
+                        existingCharacher.Dead = true;
+                    }
+                    
                 }
+                else
+                {
+                    var existingCharacher = _context.Characters.FirstOrDefault(m => m.Id == characters[charInd].Id);
+                    charItem.Initiative = InitiativeValues[charItem.Name];
+                    existingCharacher.Dead = false;
+                }
+                _context.SaveChanges();
+                charInd++;
+                //if (InitiativeValues.ContainsKey(charItem.Name))
+                //{
+                //    charItem.Initiative = InitiativeValues[charItem.Name];
+                //}
             }
 
             // Перебрасываем инициативу для всех монстров
             foreach (var monsterItem in monsters)
             {
-                
-                monsterItem.RollInitiative();
-
-                var existingMonster = _context.Monsters.FirstOrDefault(m => m.Id == monsters[i].Id);
-                if (existingMonster != null)
+                if (DeadMonsters.Contains(monsterItem.Name))
                 {
-                    existingMonster.Name = monsters[i].Name;
-                    existingMonster.DexterityModifier = monsters[i].DexterityModifier;
-                    existingMonster.RollInitiative();  // Перерасчет инициативы при редактировании
+                    var existingMonster = _context.Monsters.FirstOrDefault(m => m.Id == monsters[monsterInd].Id);
+                    if (existingMonster != null)
+                    {
+                        existingMonster.Name = monsters[monsterInd].Name;
+                        existingMonster.Initiative = 0;
+                        existingMonster.Dead = true;
+                    }
+
+                }
+                else
+                {
+                    var existingMonster = _context.Monsters.FirstOrDefault(m => m.Id == monsters[monsterInd].Id);
+
+                    if (existingMonster != null)
+                    {
+                        existingMonster.Name = monsters[monsterInd].Name;
+                        existingMonster.DexterityModifier = monsters[monsterInd].DexterityModifier;
+                        existingMonster.RollInitiative();  // Перерасчет инициативы при редактировании
+
+                        //monsterItem.Initiative = InitiativeValues[monsterItem.Name];
+                        existingMonster.Dead = false;
+                    }    
                 }
 
                 _context.SaveChanges();
 
-                i++;
+                monsterInd++;
             }
 
             // Перенаправляем на Index для отображения обновленного списка инициатив

@@ -29,6 +29,9 @@ namespace DnD_Master.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Dead")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("Initiative")
                         .HasColumnType("integer");
 
@@ -48,6 +51,9 @@ namespace DnD_Master.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Dead")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("DexterityModifier")
                         .HasColumnType("integer");

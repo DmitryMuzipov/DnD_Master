@@ -6,6 +6,8 @@
         public string Name { get; set; }
         public int DexterityModifier { get; set; }  // Модификатор ловкости
         public int Initiative { get; set; }  // Инициатива, рассчитанная автоматически
+        public bool Dead { get; set; }
+
 
         public void RollInitiative()
         {

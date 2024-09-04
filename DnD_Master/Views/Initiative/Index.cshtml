@@ -7,6 +7,7 @@
             <tr>
                 <th>Name</th>
                 <th>Initiative</th>
+                <th>Dead</th>
                 <th>Type</th>
             </tr>
         </thead>
@@ -41,6 +42,22 @@
                     <td>
                         @if (entity is DnD_Master.Models.Character)
                         {
+                            var character = (DnD_Master.Models.Character)entity;
+                            <input type="checkbox" name="DeadCharacters" value="@character.Name" @(character.Dead ? "checked" : "") />
+                        }
+                        else
+                        {
+                            var monster = (DnD_Master.Models.Monster)entity;
+                            <input type="checkbox" name="DeadMonsters" value="@monster.Name" @(monster.Dead ? "checked" : "") />
+
+                            @* var monster = (DnD_Master.Models.Monster)entity;
+                            <!-- Если есть аналогичное свойство у Monster -->
+                            @Html.CheckBoxFor(model => monster.Dead) *@
+                        }
+                    </td>
+                    <td>
+                        @if (entity is DnD_Master.Models.Character)
+                        {
                             @("Character")
                         }
                         else
@@ -65,6 +82,7 @@
             <tr>
                 <th>Name</th>
                 <th>Initiative</th>
+                <th>Dead</th>
                 <th>Type</th>
             </tr>
         </thead>
@@ -74,6 +92,7 @@
                 <tr>
                     <td>@entity.Name</td>
                     <td>@entity.Initiative</td>
+                    <th>@entity.Dead</th>
                     <td>@entity.Type</td>
                 </tr>
             }
