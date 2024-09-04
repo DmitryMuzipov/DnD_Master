@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/DnD_Master/Migrations/20240904082808_addDeadCheck.cs
+/DnD_Master/Migrations/20240904083249_addDeadCheck1.cs
+/DnD_Master/Migrations/20240904082808_addDeadCheck.Designer.cs
+/DnD_Master/Migrations/20240904083249_addDeadCheck1.Designer.cs
