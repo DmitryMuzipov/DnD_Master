@@ -2,6 +2,7 @@
 using DnD_Master.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DnD_Master.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240906023107_CreateDatabase")]
+    partial class CreateDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,30 +71,6 @@ namespace DnD_Master.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Monsters");
-                });
-
-            modelBuilder.Entity("DnD_Master.Models.Scene", b =>
-                {
-                    b.Property<int>("SceneId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SceneId"));
-
-                    b.Property<string>("Participant")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("SceneName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("SceneId");
-
-                    b.ToTable("Scene");
                 });
 #pragma warning restore 612, 618
         }

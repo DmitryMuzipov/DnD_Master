@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DnD_Master.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class CreateDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,8 @@ namespace DnD_Master.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Initiative = table.Column<int>(type: "integer", nullable: false)
+                    Initiative = table.Column<int>(type: "integer", nullable: false),
+                    Dead = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,7 +34,8 @@ namespace DnD_Master.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     DexterityModifier = table.Column<int>(type: "integer", nullable: false),
-                    Initiative = table.Column<int>(type: "integer", nullable: false)
+                    Initiative = table.Column<int>(type: "integer", nullable: false),
+                    Dead = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

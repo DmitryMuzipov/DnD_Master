@@ -61,10 +61,7 @@ namespace DnD_Master.Controllers
                 }
                 _context.SaveChanges();
                 charInd++;
-                //if (InitiativeValues.ContainsKey(charItem.Name))
-                //{
-                //    charItem.Initiative = InitiativeValues[charItem.Name];
-                //}
+
             }
 
             // Перебрасываем инициативу для всех монстров
@@ -91,7 +88,6 @@ namespace DnD_Master.Controllers
                         existingMonster.DexterityModifier = monsters[monsterInd].DexterityModifier;
                         existingMonster.RollInitiative();  // Перерасчет инициативы при редактировании
 
-                        //monsterItem.Initiative = InitiativeValues[monsterItem.Name];
                         existingMonster.Dead = false;
                     }    
                 }
