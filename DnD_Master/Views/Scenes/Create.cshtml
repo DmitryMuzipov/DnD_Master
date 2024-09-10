@@ -19,7 +19,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Participant" class="control-label"></label>
-                <input asp-for="Participant" class="form-control" />
+                <input type="text" asp-for="Participant" class="form-control" id="participantInput" autocomplete="off" />
+                    <ul id="suggestions" class="list-group" style="display:none;"></ul>
                 <span asp-validation-for="Participant" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -38,7 +39,56 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@* @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
- *@
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    // При вводе нового символа обращается к базе на наличие совпадений и предлагает их в выпадающем списке
+    $(document).ready(function () {
+        $('#participantInput').on('input', function () {
+            var query = $(this).val();
+            if (query.length > 0) {
+                $.ajax({
+                    url: '@Url.Action("SearchParticipants", "Scenes")',
+                    type: 'GET',
+                    data: { searchTerm: query },
+                    success: function (data) {
+                        $('#suggestions').empty();
+                        if (data.length > 0) {
+                            $.each(data, function (index, participant) {
+                                $('#suggestions').append($('<li class="list-group-item">').text(participant.name));
+                            });
+                            $('#suggestions').show();
+                        } else {
+                            $('#suggestions').hide();
+                        }
+                    },
+                    error: function () {
+                        alert('Error fetching participants');
+                    }
+                });
+            } else {
+                $('#suggestions').hide();
+            }
+        });
+
+        // Убирает список если кликнуть вне выподающего списка
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('#participantInput').length) {
+                $('#suggestions').hide();
+            }
+        });
+
+        // Заполняет строку выброным значением при клике на него
+        $(document).on('click', '.list-group-item', function () {
+            $('#participantInput').val($(this).text());
+            $('#suggestions').hide();
+        });
+
+        // TO DO: Разобратся как сделать подсветку выбора элемента
+        // // Подсветка элемента списка при наведении
+        // $(document).on('mouseenter', '.list-group-item', function () {
+        //     $(this).addClass('highlight');
+        // }).on('mouseleave', '.list-group-item', function () {
+        //     $(this).removeClass('highlight');
+        // });
+    });
+</script>

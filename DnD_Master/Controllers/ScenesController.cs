@@ -18,6 +18,18 @@ namespace DnD_Master.Controllers
             _context = context;
         }
 
+        // Возвращает совпавшие значения из базы 
+        [HttpGet]
+        public JsonResult SearchParticipants(string searchTerm)
+        {
+            var participants = _context.Monsters
+                .Where(p => p.Name.Contains(searchTerm))
+                .Select(p => new { p.Id, p.Name })
+                .ToList();
+
+            return Json(participants);
+        }
+
         // GET: Scenes
         public async Task<IActionResult> Index()
         {

@@ -12,6 +12,6 @@ namespace DnD_Master.Models
 
         public DbSet<Character> Characters { get; set; }
         public DbSet<Monster> Monsters { get; set; }
-        public DbSet<DnD_Master.Models.Scene> Scene { get; set; } = default!;
+        public DbSet<Scene> Scene { get; set; } = default!;
     }
 }
