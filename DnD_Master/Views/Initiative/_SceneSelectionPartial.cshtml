@@ -1,0 +1,50 @@
+﻿@model List<object>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Initiative</th>
+            <th>Dead</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entity in Model)
+        {
+            <tr>
+                <td>
+                    @if (entity is DnD_Master.Models.Character character)
+                    {
+                        @character.Name
+                    }
+                    else if (entity is DnD_Master.Models.Monster monster)
+                    {
+                        @monster.Name
+                    }
+                </td>
+                <td>
+                    @if (entity is DnD_Master.Models.Character characterIn)
+                    {
+                        <input type="number" name="InitiativeValues[@characterIn.Name]" value="@characterIn.Initiative" />
+                    }
+                    else if (entity is DnD_Master.Models.Monster monster)
+                    {
+                        <input type="text" name="InitiativeValues[@monster.Name]" value="@monster.Initiative" />
+                    }
+                </td>
+                <td>
+                    @if (entity is DnD_Master.Models.Character characterDead)
+                    {
+                        <input type="checkbox" name="DeadCharacters" value="@characterDead.Name" @(characterDead.Dead ? "checked" : "") />
+                    }
+                    else if (entity is DnD_Master.Models.Monster monster)
+                    {
+                        <input type="checkbox" name="DeadMonsters" value="@monster.Name" @(monster.Dead ? "checked" : "") />
+                    }
+                </td>
+                <td>@(entity is DnD_Master.Models.Character ? "Character" : "Monster")</td>
+            </tr>
+        }
+    </tbody>
+</table>

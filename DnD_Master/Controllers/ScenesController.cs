@@ -24,7 +24,10 @@ namespace DnD_Master.Controllers
         {
             var participants = _context.Monsters
                 .Where(p => p.Name.Contains(searchTerm))
-                .Select(p => new { p.Id, p.Name })
+                .Select(p => new
+                {
+                    Item = p.Name // Переименование SceneName на Item
+                })
                 .ToList();
 
             return Json(participants);

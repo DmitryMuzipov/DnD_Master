@@ -1,16 +1,17 @@
 ﻿$(document).ready(function () {
-    $('#participantInput').on('input', function () {
+    $('#searchInput').on('input', function () {
         var query = $(this).val();
         if (query.length > 0) {
             $.ajax({
-                url: searchParticipantsUrl,
+                url: targetUrl,
                 type: 'GET',
                 data: { searchTerm: query },
                 success: function (data) {
                     $('#suggestions').empty();
                     if (data.length > 0) {
-                        $.each(data, function (index, participant) {
-                            $('#suggestions').append($('<li class="list-group-item">').text(participant.name));
+                        $.each(data, function (index, Scenes) {
+                            console.log(Scenes);
+                            $('#suggestions').append($('<li class="list-group-item">').text(Scenes.item));
                         });
                         $('#suggestions').show();
                     } else {
@@ -35,7 +36,7 @@
 
     // Заполняет строку выброным значением при клике на него
     $(document).on('click', '.list-group-item', function () {
-        $('#participantInput').val($(this).text());
+        $('#searchInput').val($(this).text());
         $('#suggestions').hide();
     });
 

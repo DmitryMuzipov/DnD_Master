@@ -3,6 +3,7 @@ using DnD_Master.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using DnD_Master.ViewModels;
 
 namespace DnD_Master.Controllers
 {
@@ -15,29 +16,39 @@ namespace DnD_Master.Controllers
             _context = context;
         }
 
-
-        //private static List<Characters> characters = _context.Characters.ToList();
-        //private static List<Monster> monsters = MonsterController.monsters;
-
         public IActionResult Index()
         {
-            var characters = _context.Characters.ToList();
-            var monsters = _context.Monsters.ToList();
+            var model = new InitiativeIndexViewModel
+            {
+                Monster = _context.Monsters.ToList(),
+                Character = _context.Characters.ToList(),
+                Scene = _context.Scene.FirstOrDefault(),
 
-            var initiativeList = characters.Cast<object>()
-                                           .Concat(monsters)
-                                           .OrderByDescending(c => (c is Character character ? character.Initiative : ((Monster)c).Initiative))
-                                           .ToList();
-            return View(initiativeList);
+            };
+
+            return View(model);
         }
+
+        //public IActionResult QueueDisplay()
+        //{
+        //    var characters = _context.Characters.ToList();
+        //    var monsters = _context.Monsters.ToList();
+
+        //    var initiativeList = characters.Cast<object>()
+        //                                   .Concat(monsters)
+        //                                   .OrderByDescending(c => (c is Character character ? character.Initiative : ((Monster)c).Initiative))
+        //                                   .ToList();
+        //    return View(initiativeList);
+        //}
 
         [HttpPost]
         public IActionResult StartCombat(Dictionary<string, int> InitiativeValues, List<string> DeadCharacters, List<string> DeadMonsters)
         {
-            var charInd = 0;
-            var monsterInd = 0;
             var characters = _context.Characters.ToList();
             var monsters = _context.Monsters.ToList();
+
+            var charInd = characters.Count -1;
+            var monsterInd = monsters.Count -1;
 
             // Обновляем инициативу персонажей на основе данных из формы
             foreach (var charItem in characters)
@@ -60,7 +71,7 @@ namespace DnD_Master.Controllers
                     existingCharacher.Dead = false;
                 }
                 _context.SaveChanges();
-                charInd++;
+                charInd--;
 
             }
 
@@ -94,11 +105,27 @@ namespace DnD_Master.Controllers
 
                 _context.SaveChanges();
 
-                monsterInd++;
+                monsterInd--;
             }
 
             // Перенаправляем на Index для отображения обновленного списка инициатив
             return RedirectToAction("Index");
+        }
+
+        // Возвращает совпавшие значения из базы 
+        [HttpGet]
+        public JsonResult SearchScenes(string searchTerm)
+        {
+            var Scenes = _context.Scene
+                .Where(p => p.SceneName.Contains(searchTerm))
+                .Select(p => new
+                {
+                    p.SceneId,
+                    Item = p.SceneName // Переименование SceneName на Item
+                })
+                .ToList();
+
+            return Json(Scenes);
         }
     }
 }
